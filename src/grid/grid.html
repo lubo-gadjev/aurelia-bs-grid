@@ -3,66 +3,106 @@
 -->
 <template>
   <require from="../pager/pager"></require>
-  <div class="wrapper">
-    <div show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count &gt; 0)" class="grid-container header">
-      <table show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count &gt; 0)" class="table table-hover selectable">
-        <thead>
-          <tr if.bind="showColumnFilters">
-            <td repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }">
-              <input if.bind="$column.showInputFilter" value.bind="$column.filterValue" input.delegate="$column.updateFilters()" class="form-control"/>
-              <datepicker if.bind="$column.showDateFilter" value.two-way="$column.filterValue" change.trigger="$column.updateFilters()"></datepicker>
-              <div if.bind="$column.showDateFromToFilter">
-                <datepicker value.two-way="$column.filterValueFrom" change.trigger="$column.updateFilters()"></datepicker>
-                <datepicker value.two-way="$column.filterValueTo" change.trigger="$column.updateFilters()"></datepicker>
+  <div style="overflow: hidden;" class="container-fluid">
+    <div class="row">
+      <div style="overflow: auto;" show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count &gt; 0)" class="col-sm-12 grid-container header">
+        <div show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count &gt; 0)" class="content panel panel-primary">
+          <div class="top-part panel-heading">
+            <div if.bind="showColumnFilters" class="filters form-inline">
+              <div repeat.for="$column of columns" class="filter-box ${ $column.class !== '' ? $column.class : '' }">
+                <div class="form-group">
+                  <input if.bind="$column.showInputFilter" value.bind="$column.filterValue" input.delegate="$column.updateFilters()" class="form-control"/>
+                  <datepicker if.bind="$column.showDateFilter" value.two-way="$column.filterValue" change.trigger="$column.updateFilters()"></datepicker>
+                  <div if.bind="$column.showDateFromToFilter">
+                    <datepicker value.two-way="$column.filterValueFrom" change.trigger="$column.updateFilters()"></datepicker>
+                    <datepicker value.two-way="$column.filterValueTo" change.trigger="$column.updateFilters()"></datepicker>
+                  </div>
+                  <div if.bind="$column.showBooleanFilter">
+                    <button click.delegate="$column.toggleBooleanFilter()" class="btn btn-default"><i show.bind="$column.filterValue === false || $column.filterValue == undefined" class="fa fa-square-o fa-lg"></i><i show.bind="$column.filterValue === true" class="fa fa-check-square fa-lg"></i></button>
+                    <button click.delegate="$column.clearBooleanFilter()" if.bind="$column.filterValue != undefined" class="btn btn-default"><i class="fa fa-times-circle fa-lg"></i></button>
+                  </div>
+                  <select-two if.bind="$column.showSelect2Filter" value.two-way="$column.filterValue" caption="${ 'common.choose' | t }" items.bind="$parent.$parent[$column.select2Items]" change.trigger="$column.updateFilters()"></select-two>
+                </div>
               </div>
-              <div if.bind="$column.showBooleanFilter">
-                <button click.delegate="$column.toggleBooleanFilter()" class="btn btn-primary"><i show.bind="$column.filterValue === false || $column.filterValue == undefined" class="fa fa-square-o fa-lg"></i><i show.bind="$column.filterValue === true" class="fa fa-check-square fa-lg"></i></button>
-                <button click.delegate="$column.clearBooleanFilter()" if.bind="$column.filterValue != undefined" class="btn btn-primary"><i class="fa fa-times-circle fa-lg"></i></button>
+            </div>
+            <div class="clearfix"></div>
+            <div role="button" class="table-head">
+              <div repeat.for="$column of columns" class="header-box ${ $column.class !== '' ? $column.class : '' }">
+                <p><a if.bind="$column.nosort == false &amp;&amp; $parent.sortable" click.trigger="$column.changeDirectionSort()">${ $column.heading }</a><span if.bind="$column.nosort == true || !$parent.sortable">${ $column.heading }</span>
+                  <svg if.bind="$column.sortDirection === 'desc'" height="8" width="10">
+                    <polygon points="0,0 8,0 4,8" class="grid-sort-arrow"></polygon>
+                  </svg>
+                  <svg if.bind="$column.sortDirection === 'asc'" height="8" width="10">
+                    <polygon points="0,8 8,8 4,0" class="grid-sort-arrow"></polygon>
+                  </svg>
+                </p>
               </div>
-              <select-two if.bind="$column.showSelect2Filter" value.two-way="$column.filterValue" caption="${ 'common.choose' | t }" items.bind="$parent.$parent[$column.select2Items]" change.trigger="$column.updateFilters()"></select-two>
-            </td>
-          </tr>
-          <tr role="button">
-            <th repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }"><a if.bind="$column.nosort == false &amp;&amp; $parent.sortable" click.trigger="$column.changeDirectionSort()">${ $column.heading }</a><span if.bind="$column.nosort == true || !$parent.sortable">${ $column.heading }</span>
-              <svg if.bind="$column.sortDirection === 'desc'" height="8" width="10">
-                <polygon points="0,0 8,0 4,8" class="grid-sort-arrow"></polygon>
-              </svg>
-              <svg if.bind="$column.sortDirection === 'asc'" height="8" width="10">
-                <polygon points="0,8 8,8 4,0" class="grid-sort-arrow"></polygon>
-              </svg>
-            </th>
-          </tr>
-        </thead>
-      </table>
-    </div>
-    <div show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count &gt; 0)" class="grid-container scrollable">
-      <table class="table table-hover table-bordered table-condensed">
-        <tbody>
-          <tr role="button" click.delegate="$parent.select($item)"></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <!-- Footer div-->
-  <div class="container-fluid">
-    <div class="grid-footer-container row">
-      <pager num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)" show-first-last-buttons.bind="showFirstLastButtons" show-jump-buttons.bind="showJumpButtons" class="col-sm-8"></pager>
-      <div class="col-sm-4 form-inline">
-        <div class="row">
-          <div class="col-xs-6">
-            <select value.bind="pageSize" class="form-control">
-              <option value.bind="size" repeat.for="size of pageSizes">${ size === '*' ? 'All' : size }</option>
-            </select><span>&nbsp;items per page</span>
+            </div>
           </div>
-          <div style="padding-top: 6px;" class="col-xs-6"><span class="grid-summary">Showing ${ firstVisibleItem } - ${ lastVisibleItem } of ${ count } items</span></div>
+          <div show.bind="!showNoRowsMessage || (showNoRowsMessage &amp;&amp; count &gt; 0)" class="panel-body bottom-part grid-container">
+            <div class="grid-tr"></div>
+            <!--div.bottom-box(role="button", click.delegate="$parent.select($item)")-->
+            
+            
+          </div>
+          <!--div.wrapper
+          div.grid-container.header(show.bind="!showNoRowsMessage || (showNoRowsMessage && count > 0)")
+              table.table.table-hover.selectable(show.bind="!showNoRowsMessage || (showNoRowsMessage && count > 0)")
+                thead
+                  tr(if.bind="showColumnFilters")
+                    td(repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }")
+                      input.form-control(if.bind="$column.showInputFilter", value.bind="$column.filterValue", input.delegate="$column.updateFilters()")
+                      datepicker(if.bind="$column.showDateFilter", value.two-way="$column.filterValue", change.trigger="$column.updateFilters()")
+                      div(if.bind="$column.showDateFromToFilter")
+                        datepicker(value.two-way="$column.filterValueFrom", change.trigger="$column.updateFilters()")
+                        datepicker(value.two-way="$column.filterValueTo", change.trigger="$column.updateFilters()")
+                      div(if.bind="$column.showBooleanFilter")
+                        button.btn.btn-primary(click.delegate="$column.toggleBooleanFilter()")
+                          i.fa.fa-square-o.fa-lg(show.bind="$column.filterValue === false || $column.filterValue == undefined")
+                          i.fa.fa-check-square.fa-lg(show.bind="$column.filterValue === true")
+                        button.btn.btn-primary(click.delegate="$column.clearBooleanFilter()",  if.bind="$column.filterValue != undefined")
+                          i.fa.fa-times-circle.fa-lg
+                      select-two(if.bind="$column.showSelect2Filter", value.two-way="$column.filterValue", caption="${ 'common.choose' | t }", items.bind="$parent.$parent[$column.select2Items]", change.trigger="$column.updateFilters()")
+                  tr(role="button")
+                    th(repeat.for="$column of columns" class="${ $column.class !== '' ? $column.class : '' }")
+                      a(if.bind="$column.nosort == false && $parent.sortable", click.trigger="$column.changeDirectionSort()") ${ $column.heading }
+                      span(if.bind="$column.nosort == true || !$parent.sortable") ${ $column.heading }
+                      svg(if.bind="$column.sortDirection === 'desc'" height="8" width="10")
+                        polygon(class="grid-sort-arrow" points="0,0 8,0 4,8")
+                      svg(if.bind="$column.sortDirection === 'asc'" height="8" width="10")
+                        polygon(class="grid-sort-arrow" points="0,8 8,8 4,0")
+          div.grid-container.scrollable(show.bind="!showNoRowsMessage || (showNoRowsMessage && count > 0)")
+            table.table.table-hover.table-bordered.table-condensed
+              tbody
+                tr(role="button", click.delegate="$parent.select($item)")
+          -->
+          <!-- Footer div-->
         </div>
       </div>
-    </div>
-    <!-- No rows message-->
-    <div if.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
-    <div if.bind="loading" class="grid-overlay"></div>
-    <div if.bind="loading" class="progress grid-progress-indicator">
-      <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-striped active"><span>${ loadingMessage }</span></div>
+      <div class="clearfix"></div>
+      <div class="well">
+        <div class="container-fluid">
+          <div class="grid-footer-container row">
+            <pager num-to-show.bind="pagerSize" pager.ref="pager" on-page-changed.call="pageChanged($event)" show-first-last-buttons.bind="showFirstLastButtons" show-jump-buttons.bind="showJumpButtons" class="col-sm-8"></pager>
+            <div style="padding-top: 20px;" class="col-sm-4 form-inline">
+              <div class="row">
+                <div class="col-xs-6">
+                  <select value.bind="pageSize" class="form-control">
+                    <option value.bind="size" repeat.for="size of pageSizes">${ size === '*' ? 'All' : size }</option>
+                  </select><span>&nbsp;items per page</span>
+                </div>
+                <div style="padding-top: 6px;" class="col-xs-6"><span class="grid-summary">Showing ${ firstVisibleItem } - ${ lastVisibleItem } of ${ count } items</span></div>
+              </div>
+            </div>
+          </div>
+          <!--No rows message-->
+          <div if.bind="showNoRowsMessage &amp;&amp; count === 0" class="alert alert-warning">${ noRowsMessage }</div>
+          <div if.bind="loading" class="grid-overlay"></div>
+          <div if.bind="loading" class="progress grid-progress-indicator">
+            <div role="progressbar" style="width: 100%" class="progress-bar progress-bar-striped active"><span>${ loadingMessage }</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

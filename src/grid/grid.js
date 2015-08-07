@@ -3,6 +3,8 @@ import {GridColumn} from './grid-column';
 import {Compiler} from 'gooy/aurelia-compiler';
 import './aurelia-bs-grid.css!';
 
+const bootstrapPadding = 15;
+
 @customElement('grid')
 @skipContentProcessing()
 @inject(Element, Compiler, ObserverLocator)
@@ -118,11 +120,17 @@ export class Grid {
 
   /* === Lifecycle === */
   attached() {
+
+    let reqPadding = this.getScrollBarWidth() + bootstrapPadding;
+    let topElement = document.querySelector('.top-part')
+    topElement.style.paddingRight = reqPadding + 'px';
+
     this.gridHeightChanged();
 
     if (this.autoLoad === true) {
       this.refresh();
     }
+
   }
 
   bind(executionContext) {
@@ -137,8 +145,12 @@ export class Grid {
 
     // Build the rows then dynamically compile the table
     // Get the table...
-    var table = this.element.querySelector('table>tbody');
-    var rowTemplate = table.querySelector('tr');
+    //var table = this.element.querySelector('table>tbody');
+    //var rowTemplate = table.querySelector('tr');
+    var table = this.element.querySelector('.bottom-part');
+    var rowTemplate = table.querySelector('.grid-tr');
+    var div = document.createElement('div');
+    div.className = 'bottom-content';
 
     // Create a fragment we will manipulate the DOM in
     var fragment = document.createDocumentFragment();
@@ -159,7 +171,8 @@ export class Grid {
 
     // Create the columns
     this.columns.forEach(c => {
-      var td = document.createElement('td');
+      var td = document.createElement('div');
+      td.className = 'bottom-box';
 
       // Set attributes
       for (var prop in c) {
@@ -172,7 +185,8 @@ export class Grid {
         }
       }
 
-      rowTemplate.appendChild(td);
+      div.appendChild(td);
+      rowTemplate.appendChild(div);
     });
 
     // Compile
@@ -510,6 +524,31 @@ export class Grid {
     } else {
       cont.removeAttribute('style');
     }
+  }
+  getScrollBarWidth () {
+    let inner = document.createElement('p');
+    inner.style.width = "100%";
+    inner.style.height = "200px";
+
+    let outer = document.createElement('div');
+    outer.style.position = "absolute";
+    outer.style.top = "0px";
+    outer.style.left = "0px";
+    outer.style.visibility = "hidden";
+    outer.style.width = "200px";
+    outer.style.height = "150px";
+    outer.style.overflow = "hidden";
+    outer.appendChild (inner);
+
+    document.body.appendChild (outer);
+    let w1 = inner.offsetWidth;
+    outer.style.overflow = 'scroll';
+    let w2 = inner.offsetWidth;
+    if (w1 == w2) w2 = outer.clientWidth;
+
+    document.body.removeChild (outer);
+
+    return (w1 - w2);
   }
 }
 

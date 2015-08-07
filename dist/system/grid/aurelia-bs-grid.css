@@ -1,119 +1,116 @@
-grid pager {
-  height: 34px;
+body {
+  font: 400 14px/20px 'Segoe UI';
 }
-grid pager .pagination {
-  margin: 0;
+#hoi .content {
+  margin-top: 50px;
 }
-grid .grid-container {
-  position: relative;
-  border: 1px solid gainsboro;
-  border-radius: 5px;
+#hoi .panel {
+  margin-bottom: 0;
 }
-grid .grid-sort-arrow {
-  fill: gainsboro;
-  stroke: gray;
-  stroke-width: 1;
+#hoi input,
+#hoi select {
+  width: 100%;
+  border: 0;
 }
-grid .grid-overlay {
-  position: absolute;
-  left: 0;
-  top: 0;
-  min-width: 100%;
-  min-height: 100%;
-  height: 100%;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.3);
+#hoi .toggle {
+  margin-bottom: 10px;
 }
-grid .grid-progress-indicator {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 11;
-  transform: translate(-50%, -50%);
-  width: 10%;
+#hoi .header {
+  overflow: auto;
 }
-grid .grid-summary {
-  text-align: right;
+#hoi .filters {
+  /*overflow: auto;*/
+  /*display: none;*/
 }
-grid .grid-footer-container {
-  padding-bottom: 15px;
+#hoi .filters.active {
+  display: block;
 }
-grid .progress-bar {
+#hoi.overflow .filter-box,
+#hoi.overflow .header-box,
+#hoi.overflow .bottom-box {
+  width: 7.6%;
+  float: left;
+}
+#hoi .filters,
+.filters {
+  margin-top: 15px;
+  border-top: 1px solid #fff;
+}
+#hoi .table-head,
+.table-head {
+  overflow: auto;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+#hoi .bottom-content,
+.bottom-content {
+  overflow: auto;
+  border-top: 1px solid blue;
+}
+#hoi .au-target .bottom-content + .au-target .bottom-content,
+.au-target .bottom-content + .au-target .bottom-content {
+  border-top: 1px solid blue;
+}
+#hoi .header-box,
+#hoi .filter-box,
+#hoi .bottom-box {
+  display: inline-flex;
+  min-height: 80px;
+  padding: 0 5px;
+}
+#hoi .header-box + .header-box,
+#hoi .filter-box + .filter-box,
+#hoi .bottom-box + .bottom-box,
+.header-box + .header-box,
+.filter-box + .filter-box,
+.bottom-box + .bottom-box {
+  border-left: 1px solid #fff;
+}
+#hoi .bottom-box + .bottom-box,
+.bottom-box + .bottom-box {
+  border-left: 1px solid blue;
+}
+#hoi .header-box p,
+#hoi .filter-box .form-group,
+#hoi .bottom-box span {
+  display: block;
+  margin: auto 0;
+  text-align: center;
   width: 100%;
 }
-.course {
-  white-space: nowrap;
+#hoi .filter-box .form-group {
+  width: 100%;
 }
-.wrapper {
-  overflow-x: auto;
-}
-.grid-container {
-  overflow: hidden;
-  min-width: 1300px;
-}
-.grid-container table.table {
-  table-layout: fixed;
-  border-left: 0;
-  border-right: 0;
-}
-.grid-container table.table thead td,
-.grid-container table.table tbody td,
-.grid-container table.table thead th,
-.grid-container table.table tbody th {
-  width: 20%;
-  vertical-align: middle;
-}
-.grid-container table.table thead td .tbl-buttons,
-.grid-container table.table tbody td .tbl-buttons,
-.grid-container table.table thead th .tbl-buttons,
-.grid-container table.table tbody th .tbl-buttons {
-  white-space: nowrap;
-}
-.grid-container table.table thead td:last-child,
-.grid-container table.table tbody td:last-child,
-.grid-container table.table thead th:last-child,
-.grid-container table.table tbody th:last-child {
-  border-right: 0;
-}
-.grid-container table.table thead td:first-child,
-.grid-container table.table tbody td:first-child,
-.grid-container table.table thead th:first-child,
-.grid-container table.table tbody th:first-child {
-  border-left: 0;
-}
-.grid-container table.table thead td {
-  padding: 3px 8px;
-  background-color: #f3f3f3;
-}
-.scrollable {
-  overflow-y: auto !important;
-  height: 200px;
-  margin-bottom: 20px !important;
-  margin-top: -2px;
-  padding-right: 0 !important;
-}
-.header {
-  border: 0;
-  margin-bottom: 0;
-  padding-right: 21px;
-}
-.header table {
-  border: 0;
-  margin-bottom: 0;
-}
-.header table thead {
+#hoi .input-group-addon {
   border: 0;
 }
-.header table thead tr {
-  border: 0;
+#hoi .datepicker table {
+  color: #333;
 }
-.header table thead tr td,
-.header table thead tr th {
-  border: 0;
+#hoi div datepicker + datepicker {
+  line-height: 37px;
 }
-.header table thead tr td + td {
-  border-left: 1px solid #ccc;
+/* ============ Fucking OVERFLOW ============= */
+#hoi .scrollable {
+  overflow: auto;
 }
-.header table thead tr th + th {
-  border-left: 1px solid #ccc;
+#hoi.overflow .content {
+  min-width: 2000px;
+}
+#hoi .bottom-part,
+.bottom-part {
+  height: 250px;
+  overflow-y: auto;
+}
+/* If bootstrap */
+#hoi .bottom-content div {
+  overflow: auto;
+  min-height: 80px;
+  display: inline-flex;
+}
+#hoi .bottom-content div + div {
+  border-left: 1px solid blue;
+}
+#hoi .bottom-content div span {
+  margin: auto;
 }

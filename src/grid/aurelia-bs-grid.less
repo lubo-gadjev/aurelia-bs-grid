@@ -1,128 +1,138 @@
-grid {
-  pager {
-    height: 34px;
-    .pagination {
-      margin: 0;
-    }
-  }
-
-  .grid-container {
-    position: relative;
-    border: 1px solid gainsboro;
-    border-radius: 5px;
-  }
-
-  .grid-sort-arrow {
-    fill: gainsboro;
-    stroke: gray;
-    stroke-width: 1;
-  }
-
-  .grid-overlay {
-    position: absolute;
-    left: 0;
-    top: 0;
-    min-width: 100%;
-    min-height: 100%;
-    height: 100%;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.3);
-  }
-
-  .grid-progress-indicator {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: 11;
-    transform: translate(-50%, -50%);
-    width: 10%;
-  }
-
-  .grid-summary {
-    text-align: right;
-  }
-
-  .grid-footer-container {
-    padding-bottom: 15px;
-  }
-
-  .progress-bar {
-    width: 100%;
-  }
+body {
+  font: 400 14px/20px 'Segoe UI';
 }
-
-.course {
-  white-space: nowrap;
+#hoi .content {
+   margin-top: 50px;
 }
-
-.wrapper {
-  overflow-x: auto;
-}
-
-.grid-container {
-  overflow: hidden;
-  min-width: 1300px;
-  table.table {
-    table-layout: fixed;
-    border-left: 0;
-    border-right: 0;
-    thead, tbody {
-      td, th {
-        width: 20%;
-        vertical-align: middle;
-        .tbl-buttons {
-          white-space: nowrap;
-        }
-        &:last-child {
-          border-right: 0;
-        }
-        &:first-child {
-          border-left: 0;
-        }
-      }
-    }
-    thead {
-      td {
-        padding: 3px 8px;
-        background-color: #f3f3f3;
-      }
-    }
-  }
-}
-
-.scrollable {
-  overflow-y: auto !important;
-  height: 200px;
-  margin-bottom: 20px !important;
-  margin-top: -2px;
-  padding-right: 0 !important;
-}
-
-.header {
-  border: 0;
+#hoi .panel {
   margin-bottom: 0;
-  padding-right: 21px;
-  table {
-    border: 0;
-    margin-bottom: 0;
-
-    thead {
-      border: 0;
-      tr {
-        border: 0;
-        & + tr {
-
-        }
-        td, th {
-          border: 0;
-        }
-        td + td {
-          border-left: 1px solid #ccc;
-        }
-        th + th {
-          border-left: 1px solid #ccc;
-        }
-      }
-    }
-  }
 }
+#hoi input,
+#hoi select {
+  width: 100%;
+  border: 0;
+}
+#hoi .toggle {
+  margin-bottom: 10px;
+}
+#hoi .header {
+  overflow: auto;
+}
+#hoi .filters {
+  /*overflow: auto;*/
+  /*display: none;*/
+}
+#hoi .filters.active {
+  display: block;
+}
+#hoi.overflow .filter-box,
+#hoi.overflow .header-box,
+#hoi.overflow .bottom-box {
+  width: 7.6%;
+  float: left;
+}
+#hoi .filters,
+.filters {
+  margin-top: 15px;
+  border-top: 1px solid #fff;
+}
+#hoi .table-head,
+.table-head {
+  overflow: auto;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+#hoi .bottom-content,
+.bottom-content  {
+  overflow: auto;
+  border-top: 1px solid blue;
+}
+#hoi .au-target .bottom-content + .au-target .bottom-content,
+.au-target .bottom-content + .au-target .bottom-content {
+  border-top: 1px solid blue;
+}
+#hoi .header-box,
+#hoi .filter-box,
+#hoi .bottom-box {
+  display: inline-flex;
+  min-height: 80px;
+  padding: 0 5px;
+}
+#hoi .header-box + .header-box,
+#hoi .filter-box + .filter-box,
+#hoi .bottom-box + .bottom-box,
+.header-box + .header-box,
+.filter-box + .filter-box,
+.bottom-box + .bottom-box {
+  border-left: 1px solid #fff;
+}
+#hoi .bottom-box + .bottom-box,
+.bottom-box + .bottom-box {
+  border-left: 1px solid blue;
+}
+#hoi .header-box p,
+#hoi .filter-box .form-group,
+#hoi .bottom-box span {
+  display: block;
+  margin: auto 0;
+  text-align: center;
+  width: 100%;
+}
+
+#hoi .filter-box .form-group {
+  width: 100%;
+}
+#hoi .input-group-addon {
+  border: 0;
+}
+
+#hoi .datepicker table {
+  color: #333;
+}
+#hoi div datepicker + datepicker {
+  line-height: 37px;
+}
+/* ============ Fucking OVERFLOW ============= */
+
+#hoi .scrollable {
+  overflow: auto;
+}
+#hoi.overflow .content {
+  min-width: 2000px;
+}
+#hoi .bottom-part,
+.bottom-part {
+  height: 250px;
+  overflow-y: auto;
+}
+
+
+/* If bootstrap */
+#hoi .bottom-content div {
+  overflow: auto;
+  min-height: 80px;
+  display: inline-flex;
+}
+#hoi .bottom-content div + div {
+  border-left: 1px solid blue;
+}
+#hoi .bottom-content div span {
+  margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
